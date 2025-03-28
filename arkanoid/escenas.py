@@ -1,4 +1,11 @@
+# STANDAR
+import os
+
+# LIBRERIAR DE TERCEROS
 import pygame as pg
+
+# DEPENDENCIAS PROPIAS
+from . import ALTO_PANTALLA, ANCHO_PANTALLA
 
 class Escena:
     def __init__(self, pantalla):
@@ -10,6 +17,8 @@ class Escena:
 class Portada(Escena):
     def __init__(self, pantalla):
         super().__init__(pantalla)
+        ruta = os.path.join('resources', 'images', 'arkanoid_name.png')
+        self.logo = pg.image.load(ruta)
 
     def bucle_principal(self):
         super().bucle_principal()
@@ -21,6 +30,13 @@ class Portada(Escena):
                 if evento.type == pg.QUIT:
                     salir = True 
             self.pantalla.fill((99, 0, 0))
+
+            # pintamos el logo
+            ancho, alto  = self.logo.get_size()
+            x = (ANCHO_PANTALLA - ancho) // 2
+            y = (ALTO_PANTALLA - alto) // 3
+            self.pantalla.blit(self.logo, (x, y))
+
             pg.display.flip()
 
 class Partida(Escena):

@@ -1,7 +1,7 @@
 import pygame as pg
 
 from . import ANCHO_PANTALLA, ALTO_PANTALLA
-
+from .escenas import Partida, Portada, Puntuaciones
 
 class Arkanoid:
 
@@ -9,23 +9,17 @@ class Arkanoid:
         pg.init()
         self.pantalla = pg.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
 
+        portada = Portada(self.pantalla)
+        partida = Partida(self.pantalla)
+        puntuaciones = Puntuaciones(self.pantalla)
+
+        self.escenas = [portada, puntuaciones, partida]
+
     def jugar(self):
 
-        salir = False
-
-        while not salir:
-
-            for evento in pg.event.get():
-                if pg.QUIT == evento.type:
-                    salir = True
-
-
-            self.pantalla.fill((99, 0, 0))
-            pg.display.flip
-
-
-
-
+        for escena in self.escenas:
+            escena.bucle_principal()
+       
 
         pg.quit()
 

@@ -28,10 +28,21 @@ class Portada(Escena):
         print('escena portada')
 
         salir = False
+        finalizar = False
         while not salir:
             for evento in pg.event.get():
                 if evento.type == pg.QUIT:
+                    finalizar = True
                     salir = True 
+                elif evento.type == pg.KEYDOWN:
+                    if evento.key == pg.K_SPACE:
+                        salir = True
+                    elif evento.key == pg.K_ESCAPE:
+                        salir = True
+                        finalizar = True
+
+
+
             self.pantalla.fill((99, 0, 0))
 
             
@@ -39,6 +50,7 @@ class Portada(Escena):
             self.pintar_mensaje()
 
             pg.display.flip()
+        return finalizar
 
     def pintar_mensaje(self):
         mensaje = "Pulsa SPACE para iniciar"

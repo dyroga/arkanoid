@@ -1,15 +1,13 @@
-import pygame
+import pygame as pg
 
+from . import ANCHO_PANTALLA, ALTO_PANTALLA
 
-ANCHO_PANTALLA = 500
-ALTO_PANTALLA = 600
 
 class Arkanoid:
 
     def __init__(self):
-        
-        pygame.init()
-        self.pantalla = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
+        pg.init()
+        self.pantalla = pg.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
 
     def jugar(self):
 
@@ -17,19 +15,19 @@ class Arkanoid:
 
         while not salir:
 
-            for evento in pygame.event.get():
-                if pygame.QUIT == evento.type:
+            for evento in pg.event.get():
+                if pg.QUIT == evento.type:
                     salir = True
 
 
             self.pantalla.fill((99, 0, 0))
-            pygame.display.flip
+            pg.display.flip
 
 
 
 
 
-        pygame.quit()
+        pg.quit()
 
 if __name__ == '__main__':
     print('arrancamos el juego desde arkanoid.py')

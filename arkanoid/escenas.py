@@ -6,6 +6,7 @@ import pygame as pg
 
 # DEPENDENCIAS PROPIAS
 from . import ALTO_PANTALLA, ANCHO_PANTALLA
+from .entidades import Raqueta
 
 class Escena:
     def __init__(self, pantalla):
@@ -68,6 +69,10 @@ class Portada(Escena):
 class Partida(Escena):
     def __init__(self, pantalla):
         super().__init__(pantalla)
+        ruta = os.path.join('resources', 'images', 'background.jpg')
+        self.fondo = pg.image.load(ruta)
+        self.jugador = Raqueta()
+
     
     def bucle_principal(self):
         super().bucle_principal()
@@ -78,8 +83,18 @@ class Partida(Escena):
             for evento in pg.event.get():
                 if evento.type == pg.QUIT:
                     salir = True 
-            self.pantalla.fill((0, 0, 99))
+
+            self.pintar_fondo()
+            
+            self.pantalla.blit(self.jugador.image, self.jugador.rect)
+
             pg.display.flip()
+
+    def pintar_fondo(self):
+        self.pantalla.fill((0, 0, 99))
+        self.pantalla.blit(self.fondo, (0, 0))
+
+    
 
 class Puntuaciones(Escena):
     def __init__(self, pantalla):

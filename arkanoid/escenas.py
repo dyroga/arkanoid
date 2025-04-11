@@ -5,7 +5,7 @@ import os
 import pygame as pg
 
 # DEPENDENCIAS PROPIAS
-from . import ALTO_PANTALLA, ANCHO_PANTALLA
+from . import ALTO_PANTALLA, ANCHO_PANTALLA, FPS
 from .entidades import Raqueta
 
 class Escena:
@@ -72,6 +72,7 @@ class Partida(Escena):
         ruta = os.path.join('resources', 'images', 'background.jpg')
         self.fondo = pg.image.load(ruta)
         self.jugador = Raqueta()
+        self.reloj = pg.time.Clock()
 
     
     def bucle_principal(self):
@@ -80,12 +81,14 @@ class Partida(Escena):
 
         salir = False
         while not salir:
+            self.reloj.tick(FPS)
             for evento in pg.event.get():
                 if evento.type == pg.QUIT:
                     salir = True 
 
             self.pintar_fondo()
             
+            self.jugador.update()
             self.pantalla.blit(self.jugador.image, self.jugador.rect)
 
             pg.display.flip()

@@ -17,17 +17,23 @@ class Raqueta (pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.image = []
-        for i in range(2):
+        self.imagenes = []
+        for i in range(3):
             ruta_imagen = os.path.join('resources', 'images', f'electric0{i}.png')
+            img = pg.image.load(ruta_imagen)
+            self.imagenes.append(img)
+        self.contador = 0
 
-        ruta_imagen = os.path.join('resources', 'images', 'electric00.png')
-        self.image = pg.image.load(ruta_imagen) 
+        self.image = self.imagenes[0] 
         self.rect = self.image.get_rect()
         #self.rect.bottom = ALTO_PANTALLA - 25
         #self.rect.centerx = ANCHO_PANTALLA / 2
         self.rect.midbottom = (ANCHO_PANTALLA // 2, ALTO_PANTALLA - 25)
 
 
-    def update(self): 
-        pass
+    def update(self):
+
+        self.contador += 1
+        if self.contador > 2:
+            self.contador = 0 
+        self.image = self.imagenes[self.contador]

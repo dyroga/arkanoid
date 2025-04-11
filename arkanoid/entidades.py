@@ -5,6 +5,7 @@ import pygame as pg
 from . import ALTO_PANTALLA, ANCHO_PANTALLA
 
 class Raqueta (pg.sprite.Sprite):
+
     """
     1. es un sprite, usar herencia
     2. se puede mover
@@ -47,3 +48,15 @@ class Raqueta (pg.sprite.Sprite):
             self.rect.x += self.velocidad
             if self.rect.right > (ANCHO_PANTALLA - 1):
                 self.rect.right = (ANCHO_PANTALLA - 1)
+
+class Ladrillo (pg.sprite.Sprite):
+
+    def __init__(self):
+        super().__init__()
+
+        ruta_verde = os.path.join('resources', 'images', 'electric02.png')
+        self.image = pg.image.load(ruta_verde)
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        pass

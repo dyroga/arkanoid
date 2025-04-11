@@ -6,7 +6,7 @@ import pygame as pg
 
 # DEPENDENCIAS PROPIAS
 from . import ALTO_PANTALLA, ANCHO_PANTALLA, FPS
-from .entidades import Raqueta
+from .entidades import Ladrillo, Raqueta
 
 class Escena:
     def __init__(self, pantalla):
@@ -69,10 +69,13 @@ class Portada(Escena):
 class Partida(Escena):
     def __init__(self, pantalla):
         super().__init__(pantalla)
+        self.reloj = pg.time.Clock()
+        
         ruta = os.path.join('resources', 'images', 'background.jpg')
         self.fondo = pg.image.load(ruta)
+        
         self.jugador = Raqueta()
-        self.reloj = pg.time.Clock()
+        self.muro = []
 
     
     def bucle_principal(self):
@@ -96,6 +99,16 @@ class Partida(Escena):
     def pintar_fondo(self):
         self.pantalla.fill((0, 0, 99))
         self.pantalla.blit(self.fondo, (0, 0))
+
+    def pintar_muro(self):
+
+        filas = 4
+        columnas = 6
+
+        for fila in filas:
+            for columna in columnas:
+                ladrillo = Ladrillo()
+                self.muro.append(ladrillo)
 
     
 

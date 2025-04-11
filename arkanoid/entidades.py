@@ -24,7 +24,7 @@ class Raqueta (pg.sprite.Sprite):
             self.imagenes.append(img)
         self.contador = 0
 
-        self.image = self.imagenes[0] 
+        self.image = self.imagenes[self.contador] 
         self.rect = self.image.get_rect()
         #self.rect.bottom = ALTO_PANTALLA - 25
         #self.rect.centerx = ANCHO_PANTALLA / 2
@@ -34,6 +34,6 @@ class Raqueta (pg.sprite.Sprite):
     def update(self):
 
         self.contador += 1
-        if self.contador > 2:
+        if self.contador > len(self.imagenes):
             self.contador = 0 
         self.image = self.imagenes[self.contador]

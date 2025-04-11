@@ -16,6 +16,11 @@ class Raqueta (pg.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
+
+        self.image = []
+        for i in range(2):
+            ruta_imagen = os.path.join('resources', 'images', f'electric0{i}.png')
+
         ruta_imagen = os.path.join('resources', 'images', 'electric00.png')
         self.image = pg.image.load(ruta_imagen) 
         self.rect = self.image.get_rect()

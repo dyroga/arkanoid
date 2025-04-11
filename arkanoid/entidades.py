@@ -12,7 +12,7 @@ class Raqueta (pg.sprite.Sprite):
     4. situarlo en la posicion inicial
 
     """
-
+    velocidad = 10
 
     def __init__(self):
         super().__init__()
@@ -34,6 +34,12 @@ class Raqueta (pg.sprite.Sprite):
     def update(self):
 
         self.contador += 1
-        if self.contador > len(self.imagenes):
+        if self.contador >= len(self.imagenes):
             self.contador = 0 
         self.image = self.imagenes[self.contador]
+
+        teclas = pg.key.get_pressed()
+        if teclas[pg.K_LEFT]:
+            self.rect.x -= self.velocidad
+        if teclas[pg.K_RIGHT]:
+            self.rect.x += self.velocidad

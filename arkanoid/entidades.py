@@ -65,11 +65,20 @@ class Ladrillo (pg.sprite.Sprite):
 
 class Pelota(pg.sprite.Sprite):
     
-    def __init__(self):
+    def __init__(self, raqueta):
         super().__init__()
+        self.jugador = raqueta
         ruta = os.path.join('resources', 'images', 'ball1.png')
         self.image = pg.image.load(ruta)
         self.rect = self.image.get_rect()
 
-    def update(self):
-        pass
+        self.vel_X = 15
+        self.vel_y = -22
+
+    def update(self, estoy_jugando):
+        if estoy_jugando == True:
+            self.rect.x += self.vel_X
+            self.rect.y += self.vel_y
+        else:
+            self.rect.midbottom = self.jugador.rect.midtop
+        

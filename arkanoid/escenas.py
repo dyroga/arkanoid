@@ -76,7 +76,7 @@ class Partida(Escena):
         
         self.jugador = Raqueta()
         self.muro = pg.sprite.Group()
-        self.pelota = Pelota()
+        self.pelota = Pelota(self.jugador)
 
     
     def bucle_principal(self):
@@ -85,6 +85,8 @@ class Partida(Escena):
 
         finalizar = True
         salir = False
+        estoy_jugando = False
+       
         while not salir:
             self.reloj.tick(FPS)
             for evento in pg.event.get():
@@ -94,6 +96,8 @@ class Partida(Escena):
                     if evento.key == pg.K_ESCAPE:
                         salir = True
                         finalizar = True
+                    elif evento.key == pg.K_SPACE:
+                        estoy_jugando = True
     
                         
 
@@ -103,8 +107,8 @@ class Partida(Escena):
             
             self.jugador.update()
             self.pantalla.blit(self.jugador.image, self.jugador.rect)
-            
-            self.pelota.rect.midbottom = self.jugador.rect.midtop
+        
+            self.pelota.update(estoy_jugando)
             self.pantalla.blit(self.pelota.image, self.pelota.rect)
 
             pg.display.flip()

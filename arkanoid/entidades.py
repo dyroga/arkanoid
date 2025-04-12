@@ -13,7 +13,7 @@ class Raqueta (pg.sprite.Sprite):
     4. situarlo en la posicion inicial
 
     """
-    velocidad = 10
+    velocidad = 15
 
     def __init__(self):
         super().__init__()
@@ -51,11 +51,24 @@ class Raqueta (pg.sprite.Sprite):
 
 class Ladrillo (pg.sprite.Sprite):
 
+
     def __init__(self):
         super().__init__()
 
-        ruta_verde = os.path.join('resources', 'images', 'electric02.png')
+        ruta_verde = os.path.join('resources', 'images', 'greenTile.png')
         self.image = pg.image.load(ruta_verde)
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        pass
+
+
+class Pelota(pg.sprite.Sprite):
+    
+    def __init__(self):
+        super().__init__()
+        ruta = os.path.join('resources', 'images', 'ball1.png')
+        self.image = pg.image.load(ruta)
         self.rect = self.image.get_rect()
 
     def update(self):

@@ -6,7 +6,7 @@ import pygame as pg
 
 # DEPENDENCIAS PROPIAS
 from . import ALTO_PANTALLA, ANCHO_PANTALLA, FPS
-from .entidades import Ladrillo, Raqueta
+from .entidades import Ladrillo, Pelota, Raqueta
 
 class Escena:
     def __init__(self, pantalla):
@@ -75,40 +75,65 @@ class Partida(Escena):
         self.fondo = pg.image.load(ruta)
         
         self.jugador = Raqueta()
-        self.muro = []
+        self.muro = pg.sprite.Group()
+        self.pelota = Pelota()
 
     
     def bucle_principal(self):
         super().bucle_principal()
         print('escena partida')
 
+        finalizar = True
         salir = False
         while not salir:
             self.reloj.tick(FPS)
             for evento in pg.event.get():
                 if evento.type == pg.QUIT:
                     salir = True 
+                elif evento.type == pg.KEYDOWN:
+                    if evento.key == pg.K_ESCAPE:
+                        salir = True
+                        finalizar = True
+    
+                        
 
             self.pintar_fondo()
+            self.crear_muro()
+            self.muro.draw(self.pantalla)
             
             self.jugador.update()
             self.pantalla.blit(self.jugador.image, self.jugador.rect)
+            
+            self.pelota.rect.midbottom = self.jugador.rect.midtop
+            self.pantalla.blit(self.pelota.image, self.pelota.rect)
 
             pg.display.flip()
+        return finalizar
 
     def pintar_fondo(self):
         self.pantalla.fill((0, 0, 99))
         self.pantalla.blit(self.fondo, (0, 0))
+        self.pantalla.blit(self.fondo, (0, 800))
+        self.pantalla.blit(self.fondo, (600, 0))
+        self.pantalla.blit(self.fondo, (600, 800))
 
-    def pintar_muro(self):
+    def crear_muro(self):
 
         filas = 4
         columnas = 6
+        margen_superior = 20
+        margen_izquierdo = 10
 
-        for fila in filas:
-            for columna in columnas:
+        for fila in range(filas):
+            for columna in range(columnas):
                 ladrillo = Ladrillo()
-                self.muro.append(ladrillo)
+                ancho_muro = ladrillo.rect.width * columnas
+                margen_izquierdo = (ANCHO_PANTALLA - ancho_muro) // 2
+                # izquierdo = (ANCHO_PANTALLA - (ladrillo.rect.width * columnas)) //2
+                ladrillo.rect.x =  margen_izquierdo + columna  * (ladrillo.rect.width + 1)
+                ladrillo.rect.y = (ladrillo.rect.height * 2) + fila * (ladrillo.rect.height + 1)
+                self.muro.add(ladrillo)
+
 
     
 

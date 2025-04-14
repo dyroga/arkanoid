@@ -1,8 +1,9 @@
 import os
+from random import randint
 
 import pygame as pg
 
-from . import ALTO_PANTALLA, ANCHO_PANTALLA
+from . import ALTO_PANTALLA, ANCHO_PANTALLA, VEL_MIN_Y, VEL_LIM_X, VEL_LIM_Y
 
 class Raqueta (pg.sprite.Sprite):
 
@@ -71,10 +72,9 @@ class Pelota(pg.sprite.Sprite):
         ruta = os.path.join('resources', 'images', 'ball1.png')
         self.image = pg.image.load(ruta)
         self.rect = self.image.get_rect()
+        self.init_velocidades()
 
-        self.vel_X = -15
-        self.vel_y = -12
-
+        
     def update(self, estoy_jugando):
         if estoy_jugando == True:
             self.rect.x += self.vel_X
@@ -83,15 +83,23 @@ class Pelota(pg.sprite.Sprite):
             #rebota izquierda y derecha de la pantalla
             if self.rect.left <= 0 or self.rect.right >= ANCHO_PANTALLA:
                 self.vel_X = -self.vel_X
-            #rebota en la raqueta y en la parte superior
-            if self.rect.top <= 0 or self.rect.bottom >= self.jugador.rect.top:
+            #rebota en la parte superior
+            if self.rect.top <= 0 :
                 self.vel_y = -self.vel_y
             
+            #rebota en la raqueta
+            if self.rect.bottom >= self.jugador.rect.top:
+                self.init_velocidades()
+
             #pierdes una vida
             if self.rect.top > ALTO_PANTALLA:
                 self.pierdes()
         else:
             self.rect.midbottom = self.jugador.rect.midtop
+
+    def init_velocidades(self):
+        self.vel_X = randint(-VEL_LIM_X, VEL_LIM_X)
+        self.vel_y = randint(-VEL_LIM_Y, VEL_MIN_Y)
         
     def pierdes (self):
-        pass
+        return False

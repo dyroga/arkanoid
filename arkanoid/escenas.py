@@ -111,6 +111,9 @@ class Partida(Escena):
             self.pelota.update(estoy_jugando)
             self.pantalla.blit(self.pelota.image, self.pelota.rect)
 
+            
+
+
             pg.display.flip()
         return finalizar
 
@@ -125,7 +128,6 @@ class Partida(Escena):
 
         filas = 4
         columnas = 6
-        margen_superior = 20
         margen_izquierdo = 10
 
         for fila in range(filas):

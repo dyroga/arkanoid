@@ -72,13 +72,26 @@ class Pelota(pg.sprite.Sprite):
         self.image = pg.image.load(ruta)
         self.rect = self.image.get_rect()
 
-        self.vel_X = 15
-        self.vel_y = -22
+        self.vel_X = -15
+        self.vel_y = -12
 
     def update(self, estoy_jugando):
         if estoy_jugando == True:
             self.rect.x += self.vel_X
             self.rect.y += self.vel_y
+
+            #rebota izquierda y derecha de la pantalla
+            if self.rect.left <= 0 or self.rect.right >= ANCHO_PANTALLA:
+                self.vel_X = -self.vel_X
+            #rebota en la raqueta y en la parte superior
+            if self.rect.top <= 0 or self.rect.bottom >= self.jugador.rect.top:
+                self.vel_y = -self.vel_y
+            
+            #pierdes una vida
+            if self.rect.top > ALTO_PANTALLA:
+                self.pierdes()
         else:
             self.rect.midbottom = self.jugador.rect.midtop
         
+    def pierdes (self):
+        pass

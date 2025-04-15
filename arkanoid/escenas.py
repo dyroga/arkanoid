@@ -131,7 +131,7 @@ class Partida(Escena):
     def crear_muro(self):
 
         filas = 4
-        columnas = 6
+        columnas = 5
         margen_izquierdo = 10
 
         color = Ladrillo.ROJO
@@ -141,7 +141,7 @@ class Partida(Escena):
                     color = Ladrillo.VERDE
                 else:
                     color = Ladrillo.ROJO
-                ladrillo = Ladrillo()
+                ladrillo = Ladrillo(color)
                 ancho_muro = ladrillo.rect.width * columnas
                 margen_izquierdo = (ANCHO_PANTALLA - ancho_muro) // 2
                 # izquierdo = (ANCHO_PANTALLA - (ladrillo.rect.width * columnas)) //2

@@ -52,17 +52,27 @@ class Raqueta (pg.sprite.Sprite):
 
 class Ladrillo (pg.sprite.Sprite):
 
+    VERDE = 0
+    ROJO = 1
+    ROJO_ROTO = 2
+    IMAGENES = ['greenTile.png', 'redTile.png', 'redTileBreak.png']
 
-    def __init__(self):
+    def __init__(self, color=VERDE):
         super().__init__()
-
-        ruta_verde = os.path.join('resources', 'images', 'greenTile.png')
-        self.image = pg.image.load(ruta_verde)
+        self.tipo = color
+        ruta = os.path.join('resources', 'images', self.IMAGENES[color])
+        self.image = pg.image.load(ruta)
         self.rect = self.image.get_rect()
 
-    def update(self):
-        pass
-
+    def update(self, muro):
+        if self.tipo == Ladrillo.ROJO:
+            self.tipo = Ladrillo.ROJO_ROTO
+        else:
+            muro.remove(self)
+        ruta = os.path.join('resources', 'images', self.IMAGENES[self.tipo])
+        self.image = pg.image.load(ruta)
+        self.rect = self.image.get_rect()
+        
 
 class Pelota(pg.sprite.Sprite):
     
@@ -88,18 +98,17 @@ class Pelota(pg.sprite.Sprite):
                 self.vel_y = -self.vel_y
             
             #rebota en la raqueta
-            if self.rect.bottom >= self.jugador.rect.top:
+            if pg.sprite.collide_mask(self, self.jugador):
                 self.init_velocidades()
 
-            #pierdes una vida
             if self.rect.top > ALTO_PANTALLA:
                 self.pierdes()
         else:
             self.rect.midbottom = self.jugador.rect.midtop
 
     def init_velocidades(self):
-        self.vel_X = randint(-VEL_LIM_X, VEL_LIM_X)
-        self.vel_y = randint(-VEL_LIM_Y, VEL_MIN_Y)
+        self.vel_X = randint(-VEL_LIM_X, +VEL_LIM_X)
+        self.vel_y = randint(-VEL_LIM_Y, -VEL_MIN_Y)
         
     def pierdes (self):
-        return False
+        print('pierdes una vida')

@@ -83,9 +83,10 @@ class Partida(Escena):
         super().bucle_principal()
         print('escena partida')
 
-        finalizar = True
+        finalizar = False
         salir = False
         estoy_jugando = False
+        self.crear_muro()
        
         while not salir:
             self.reloj.tick(FPS)
@@ -102,7 +103,6 @@ class Partida(Escena):
                         
 
             self.pintar_fondo()
-            self.crear_muro()
             self.muro.draw(self.pantalla)
             
             self.jugador.update()
@@ -111,7 +111,11 @@ class Partida(Escena):
             self.pelota.update(estoy_jugando)
             self.pantalla.blit(self.pelota.image, self.pelota.rect)
 
-            
+            golpeados = pg.sprite.spritecollide(self.pelota, self.muro, True)
+            if len(golpeados) > 0:
+                self.pelota.vel_y = -self.pelota.vel_y
+                for ladrillo in golpeados:
+                    ladrillo.update(self.muro)
 
 
             pg.display.flip()
@@ -130,8 +134,13 @@ class Partida(Escena):
         columnas = 6
         margen_izquierdo = 10
 
+        color = Ladrillo.ROJO
         for fila in range(filas):
             for columna in range(columnas):
+                if color == Ladrillo.ROJO:
+                    color = Ladrillo.VERDE
+                else:
+                    color = Ladrillo.ROJO
                 ladrillo = Ladrillo()
                 ancho_muro = ladrillo.rect.width * columnas
                 margen_izquierdo = (ANCHO_PANTALLA - ancho_muro) // 2

@@ -50,29 +50,35 @@ class Raqueta (pg.sprite.Sprite):
             if self.rect.right > (ANCHO_PANTALLA - 1):
                 self.rect.right = (ANCHO_PANTALLA - 1)
 
+
+
+IMAGENES = [
+    pg.image.load(os.path.join('resources', 'images','greenTile.png')),
+    pg.image.load(os.path.join('resources', 'images','redTile.png')),
+    pg.image.load(os.path.join('resources', 'images','redTileBreak.png')),
+]
 class Ladrillo (pg.sprite.Sprite):
 
     VERDE = 0
     ROJO = 1
     ROJO_ROTO = 2
-    IMAGENES = ['greenTile.png', 'redTile.png', 'redTileBreak.png']
 
     def __init__(self, color=VERDE):
         super().__init__()
         self.tipo = color
-        ruta = os.path.join('resources', 'images', self.IMAGENES[color])
-        self.image = pg.image.load(ruta)
+        
+        self.image = IMAGENES[color]
         self.rect = self.image.get_rect()
 
-    def update(self, muro):
+    def update(self):
+        quitar = False
         if self.tipo == Ladrillo.ROJO:
             self.tipo = Ladrillo.ROJO_ROTO
         else:
-            muro.remove(self)
-        ruta = os.path.join('resources', 'images', self.IMAGENES[self.tipo])
-        self.image = pg.image.load(ruta)
-        self.rect = self.image.get_rect()
-        
+            quitar = True
+        self.image = IMAGENES[self.tipo]
+        return quitar
+
 
 class Pelota(pg.sprite.Sprite):
     

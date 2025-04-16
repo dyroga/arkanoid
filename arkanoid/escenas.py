@@ -111,11 +111,13 @@ class Partida(Escena):
             self.pelota.update(estoy_jugando)
             self.pantalla.blit(self.pelota.image, self.pelota.rect)
 
-            golpeados = pg.sprite.spritecollide(self.pelota, self.muro, True)
+            golpeados = pg.sprite.spritecollide(self.pelota, self.muro, False)
             if len(golpeados) > 0:
                 self.pelota.vel_y = -self.pelota.vel_y
                 for ladrillo in golpeados:
-                    ladrillo.update(self.muro)
+                    quitar = ladrillo.update()
+                    if quitar == True:
+                        self.muro.remove(ladrillo)
 
 
             pg.display.flip()

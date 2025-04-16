@@ -39,12 +39,23 @@ class Records:
                     continue
                 self.game_records.append([line[0], int(line[1])])
             
+    def puntuacion_menor(self):
+        return self.game_records[-1][-1]
 
     def insertar_record(self, nombre, puntuacion):
-        pass
+        if puntuacion <= self.puntuacion_menor():
+            return 
+        contador = 0
+        for item in self.game_records:
+            if puntuacion > item[1]:
+                self.game_records.insert(contador, [nombre, puntuacion])
+                break
+            contador += 1
+        self.game_records = self.game_records[:NUM_RECORDS]
+        self.guardar()
 
-    def puntuacion_menor(self):
-        return 0
+        
+
     
     def reset(self):
         self.game_records = []

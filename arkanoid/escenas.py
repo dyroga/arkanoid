@@ -111,10 +111,10 @@ class Partida(Escena):
         
             self.pelota.update(estoy_jugando)
             self.pantalla.blit(self.pelota.image, self.pelota.rect)
-            
+
             if self.pelota.seguir:
                 estoy_jugando = False
-                ContadorVidas.perder_Vida(self.contador_de_vidas)
+                salir = self.contador_de_vidas.perder_Vida()
                 self.pelota.seguir = False
 
 

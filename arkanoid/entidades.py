@@ -71,13 +71,11 @@ class Ladrillo (pg.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
-        quitar = False
         if self.tipo == Ladrillo.ROJO:
             self.tipo = Ladrillo.ROJO_ROTO
         else:
-            quitar = True
+            self.kill()
         self.image = IMAGENES[self.tipo]
-        return quitar
 
 
 class Pelota(pg.sprite.Sprite):

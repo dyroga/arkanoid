@@ -115,10 +115,7 @@ class Partida(Escena):
             if len(golpeados) > 0:
                 self.pelota.vel_y = -self.pelota.vel_y
                 for ladrillo in golpeados:
-                    quitar = ladrillo.update()
-                    if quitar == True:
-                        self.muro.remove(ladrillo)
-
+                    ladrillo.update()
 
             pg.display.flip()
         return finalizar

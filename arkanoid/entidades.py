@@ -79,6 +79,7 @@ class Ladrillo (pg.sprite.Sprite):
 
 
 class Pelota(pg.sprite.Sprite):
+
     
     def __init__(self, raqueta):
         super().__init__()
@@ -87,10 +88,13 @@ class Pelota(pg.sprite.Sprite):
         self.image = pg.image.load(ruta)
         self.rect = self.image.get_rect()
         self.init_velocidades()
+        self.seguir = False
 
         
     def update(self, estoy_jugando):
-        if estoy_jugando == True:
+        if estoy_jugando == False:
+            self.rect.midbottom = self.jugador.rect.midtop
+        else:
             self.rect.x += self.vel_X
             self.rect.y += self.vel_y
 
@@ -105,19 +109,24 @@ class Pelota(pg.sprite.Sprite):
             if pg.sprite.collide_mask(self, self.jugador):
                 self.init_velocidades()
 
-            if self.rect.top > ALTO_PANTALLA:
-                seguir = False
-            else: 
-                seguir = True
-        else:
-            self.rect.midbottom = self.jugador.rect.midtop
-            seguir = False
-
-        return seguir
-
+            self.seguir = self.rect.top > ALTO_PANTALLA
+          
     def init_velocidades(self):
         self.vel_X = randint(-VEL_LIM_X, +VEL_LIM_X)
         self.vel_y = randint(-VEL_LIM_Y, -VEL_MIN_Y)
         
     def pierdes (self):
         print('pierdes una vida')
+
+
+class ContadorVidas :
+    def __init__(self, vidas_iniciales):
+        self.vidas = vidas_iniciales
+
+    def perder_Vida(self):
+        self.vidas -= 1
+        print('has perdido una vida: te quedan ', self.vidas)
+        return self.vidas == 0
+    
+    def pintar(self):
+        pass

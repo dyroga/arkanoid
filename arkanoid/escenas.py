@@ -5,8 +5,8 @@ import os
 import pygame as pg
 
 # DEPENDENCIAS PROPIAS
-from . import ALTO_PANTALLA, ANCHO_PANTALLA, FPS
-from .entidades import Ladrillo, Pelota, Raqueta
+from . import ALTO_PANTALLA, ANCHO_PANTALLA, FPS, VIDAS
+from .entidades import ContadorVidas, Ladrillo, Pelota, Raqueta
 
 class Escena:
     def __init__(self, pantalla):
@@ -77,6 +77,7 @@ class Partida(Escena):
         self.jugador = Raqueta()
         self.muro = pg.sprite.Group()
         self.pelota = Pelota(self.jugador)
+        self.contador_de_vidas = ContadorVidas(VIDAS)
 
     
     def bucle_principal(self):
@@ -108,8 +109,16 @@ class Partida(Escena):
             self.jugador.update()
             self.pantalla.blit(self.jugador.image, self.jugador.rect)
         
-            estoy_jugando = self.pelota.update(estoy_jugando)
+            self.pelota.update(estoy_jugando)
             self.pantalla.blit(self.pelota.image, self.pelota.rect)
+            
+            if self.pelota.seguir:
+                estoy_jugando = False
+                ContadorVidas.perder_Vida(self.contador_de_vidas)
+                self.pelota.seguir = False
+
+
+
 
             golpeados = pg.sprite.spritecollide(self.pelota, self.muro, False)
             if len(golpeados) > 0:

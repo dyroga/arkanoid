@@ -106,9 +106,14 @@ class Pelota(pg.sprite.Sprite):
                 self.init_velocidades()
 
             if self.rect.top > ALTO_PANTALLA:
-                self.pierdes()
+                seguir = False
+            else: 
+                seguir = True
         else:
             self.rect.midbottom = self.jugador.rect.midtop
+            seguir = False
+
+        return seguir
 
     def init_velocidades(self):
         self.vel_X = randint(-VEL_LIM_X, +VEL_LIM_X)

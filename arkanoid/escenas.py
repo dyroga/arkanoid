@@ -108,7 +108,7 @@ class Partida(Escena):
             self.jugador.update()
             self.pantalla.blit(self.jugador.image, self.jugador.rect)
         
-            self.pelota.update(estoy_jugando)
+            estoy_jugando = self.pelota.update(estoy_jugando)
             self.pantalla.blit(self.pelota.image, self.pelota.rect)
 
             golpeados = pg.sprite.spritecollide(self.pelota, self.muro, False)

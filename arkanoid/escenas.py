@@ -171,6 +171,7 @@ class Puntuaciones(Escena):
         print('escena records')
 
         records = Records()
+        records.cargar()
 
         salir = False
         while not salir:

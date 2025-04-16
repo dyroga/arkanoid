@@ -28,7 +28,16 @@ class Records:
             writer.writerows(self.game_records)
 
     def cargar(self):
-        pass
+        with open(self.path, mode='r')as file:
+            reader = csv.reader(file, lineterminator='\n')
+            self.game_records = []
+            contador = 0
+            for line in reader:
+                contador += 1
+                if contador == 1:
+                    continue
+                self.game_records.append([line[0]], int(line[1]))
+            
 
     def insertar_record(self, nombre, puntuacion):
         pass

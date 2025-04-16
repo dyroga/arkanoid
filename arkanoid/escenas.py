@@ -4,6 +4,8 @@ import os
 # LIBRERIAR DE TERCEROS
 import pygame as pg
 
+from arkanoid.record import Records
+
 # DEPENDENCIAS PROPIAS
 from . import ALTO_PANTALLA, ANCHO_PANTALLA, FPS, VIDAS
 from .entidades import ContadorVidas, Ladrillo, Pelota, Raqueta
@@ -167,6 +169,8 @@ class Puntuaciones(Escena):
     def bucle_principal(self):
         super().bucle_principal()
         print('escena records')
+
+        records = Records()
 
         salir = False
         while not salir:

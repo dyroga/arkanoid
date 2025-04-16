@@ -9,3 +9,5 @@ VEL_MIN_Y = 10
 VEL_LIM_Y = 20
 
 VIDAS = 3
+
+NUM_RECORDS = 3

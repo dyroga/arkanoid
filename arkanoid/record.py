@@ -6,7 +6,7 @@ from . import NUM_RECORDS
 class Records:
 
     file_name = 'scores.csv'
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    base_dir = os.path.dirname(os.path.dirname(__file__))
     path = os.path.join(base_dir, 'data', file_name)
 
     def __init__(self):
@@ -19,12 +19,13 @@ class Records:
             print('el directorio de datos no esxiste lo estoy creando para ti')
             os.makedirs(dir_data)
         if not os.path.exists(self.path):
+            print('el archivo records no esxiste: creandolo sin datos')
             self.reset()
 
     def guardar(self):
-        with open(self.path, 'w') as file:
+        with open(self.path, "w") as file:
             writer = csv.writer(file, lineterminator='\n')
-            writer.writerow(['nombre'],['puntos'])
+            writer.writerow(['nombre', 'puntos'])
             writer.writerows(self.game_records)
 
     def cargar(self):
@@ -36,7 +37,7 @@ class Records:
                 contador += 1
                 if contador == 1:
                     continue
-                self.game_records.append([line[0]], int(line[1]))
+                self.game_records.append([line[0], int(line[1])])
             
 
     def insertar_record(self, nombre, puntuacion):
@@ -49,4 +50,4 @@ class Records:
         self.game_records = []
         for cont in range(NUM_RECORDS):
             self.game_records.append(['-------', 0000])
-        self.guardar
+        self.guardar()

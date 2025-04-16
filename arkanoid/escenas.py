@@ -4,11 +4,11 @@ import os
 # LIBRERIAR DE TERCEROS
 import pygame as pg
 
-from arkanoid.record import Records
 
 # DEPENDENCIAS PROPIAS
 from . import ALTO_PANTALLA, ANCHO_PANTALLA, FPS, VIDAS
 from .entidades import ContadorVidas, Ladrillo, Pelota, Raqueta
+from arkanoid.record import Records
 
 class Escena:
     def __init__(self, pantalla):
@@ -165,6 +165,13 @@ class Partida(Escena):
 class Puntuaciones(Escena):
     def __init__(self, pantalla):
         super().__init__(pantalla)
+        ruta_letras = os.path.join('resources', 'fonts', 'CabinSketch-Bold.ttf')
+        self.color_letra = 240, 220, 60
+        self.alto_linea = 60
+        self.letras =pg.font.Font(ruta_letras, self.alto_linea//3*2)
+        self.margen_superior = ALTO_PANTALLA // 4
+        self.margen = ANCHO_PANTALLA // 6
+
 
     def bucle_principal(self):
         super().bucle_principal()
@@ -172,11 +179,35 @@ class Puntuaciones(Escena):
 
         records = Records()
         records.cargar()
+        print(records.game_records)
 
+        linea = 0
         salir = False
         while not salir:
             for evento in pg.event.get():
                 if evento.type == pg.QUIT:
                     salir = True 
             self.pantalla.fill((0, 99, 0))
+
+            img_titulo = self.letras.render('RECORDS', True, self.color_letra)
+            x = (ANCHO_PANTALLA - img_titulo.get_width())//2
+            y = self.margen_superior // 2
+            self.pantalla.blit(img_titulo, (x, y))
+
+            linea = 0
+            for record in records.game_records:
+                nombre = record[0]
+                puntos = str(record[1])
+
+                img_nombre = self.letras.render(nombre, True, self.color_letra)
+                x = self.margen
+                y = self.margen_superior + self.alto_linea * linea
+                self.pantalla.blit(img_nombre, (x, y))
+
+                img_puntos = self.letras.render(puntos, True, self.color_letra)
+                x = ANCHO_PANTALLA - self.margen - img_puntos.get_width()
+                self.pantalla.blit(img_puntos, (x,y))
+
+                linea += 1
+
             pg.display.flip()
